@@ -1,79 +1,43 @@
-abstract class Figure{
-    String color;
-    int size;
-    Figure(String clr, int s){
-        color = clr;
-        size = s;
+interface First{
+    String getFirst();
+    default void show(){
+        System.out.println("Интерфейс First");
+    }
+}
+interface Second{
+    String getSecond();
+    default void show(){
+        System.out.println("Интерфейс Second");
+    }
+}
+class Base{
+    String getBase(){
+        return "Base";
     }
     void show(){
-        System.out.println("Фигура: "+ color + getName());
-        System.out.println("Размер: ("+getSizeName()+")"+size);
-        System.out.printf("Площадь: %.3f\n",getArea());
-        String line="";
-        for (int i = 1; i<=30; i++){
-            line += "*";
-        }
-        System.out.println(line);
-    }
-    String getSizeName(){
-        return "сторона";
-    }
-    abstract String getName();
-    abstract double getArea();
-}
-class Triangle extends Figure{
-    Triangle(String clr, int s){
-        super(clr, s);
-    }
-    String getName(){
-        return " треугольник";
-    }
-    double getArea(){
-        double i = Math.sqrt(3)/4;
-        return size*size*i;
+        System.out.println("Класс Base");
     }
 }
-class Square extends Figure{
-    Square(String clr, int s){
-        super(clr, s);
+class Implement extends Base implements First,Second{
+    public String getFirst(){
+        return "Интерфейс First";
     }
-    String getName(){
-        return " квадрат";
+    public String getSecond(){
+        return "Интерфейс Second";
     }
-    double getArea(){
-        double i = 1;
-        return size*size*i;
-    }
-}
-class Circle extends Figure{
-    Circle(String clr, int s){
-        super(clr, s);
-    }
-    String getName(){
-        return " круг";
-    }
-    double getArea(){
-        double i = Math.PI;
-        return size * size * i;
-    }
-    String getSizeName(){
-        return "радиус";
+    public void show(){
+        System.out.println("Мы используем: ");
+        System.out.println(getFirst());
+        System.out.println(getSecond());
+        System.out.println(getBase());
+        First.super.show();
+        Second.super.show();
+        super.show();
     }
 }
 public class Main {
     public static void main(String[] args) {
-        Triangle T = new Triangle("красный", 2);
-        Square S = new Square("черный", 3);
-        Circle C = new Circle("желтый", 1);
-        T.show();
-        S.show();
-        C.show();
-        Figure F;
-        F = T;
-        F.show();
-        F = S;
-        F.show();
-        F = C;
-        F.show();
+        Implement obj = new Implement();
+        obj.show();
     }
 }
