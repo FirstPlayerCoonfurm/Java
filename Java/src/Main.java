@@ -1,43 +1,50 @@
-interface First{
-    String getFirst();
-    default void show(){
-        System.out.println("Интерфейс First");
-    }
-}
-interface Second{
-    String getSecond();
-    default void show(){
-        System.out.println("Интерфейс Second");
-    }
-}
-class Base{
-    String getBase(){
-        return "Base";
+import static javax.swing.JOptionPane.*;
+
+class BankAcc{
+    double rate;
+    Person fellow;
+
+    public BankAcc(String name, double money, int time, double r) {
+        rate = r;
+        fellow = new Person(name, money, time);
     }
     void show(){
-        System.out.println("Класс Base");
+        showMessageDialog(null, fellow, "Депозит", INFORMATION_MESSAGE);
+    }
+    class Person{
+        String name;
+        double money;
+        int time;
+
+        double getMoney(){
+            double s = money;
+            for(int k = 1; k <= time; k++){
+                s*=(1+rate/100);
+            }
+            s = Math.round(s*100)/100.0;
+            return s;
+        }
+        public String toString(){
+            String txt = "Имя: " + name + "\n";
+            txt += "Начальная сумма: " + money + "\n";
+            txt += "Проценты: " + rate + "\n";
+            txt += "Время (лет): " + time + "\n";
+            txt += "Итоговая сумма: " + getMoney();
+            return txt;
+        }
+
+        public Person(String txt, double m, int t) {
+            name = txt;
+            money = m;
+            time = t;
+        }
     }
 }
-class Implement extends Base implements First,Second{
-    public String getFirst(){
-        return "Интерфейс First";
-    }
-    public String getSecond(){
-        return "Интерфейс Second";
-    }
-    public void show(){
-        System.out.println("Мы используем: ");
-        System.out.println(getFirst());
-        System.out.println(getSecond());
-        System.out.println(getBase());
-        First.super.show();
-        Second.super.show();
-        super.show();
-    }
-}
+
+
 public class Main {
     public static void main(String[] args) {
-        Implement obj = new Implement();
-        obj.show();
+        BankAcc ivanov = new BankAcc("Иванов Иван", 1000.0, 5, 8.0);
+        ivanov.show();
     }
 }
